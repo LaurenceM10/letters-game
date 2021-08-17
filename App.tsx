@@ -1,8 +1,8 @@
 import React from 'react';
-import {SafeAreaView} from 'react-native';
+import BoardScreen from 'features/board/screen/BoardScreen';
 
 function App() {
-  return <SafeAreaView />;
+  return <BoardScreen />;
 }
 
 export default App;
