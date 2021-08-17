@@ -20,39 +20,6 @@ export function generateMatrix(boardLetters: string[]): string[][] {
   return matrix;
 }
 
-export function findWordInDictionary(
-  dictionary: string[],
-  word: string,
-): number {
-  let left = 0;
-  let right = dictionary.length - 1;
-
-  if (dictionary[left] === word) {
-    return left;
-  }
-  if (dictionary[right] === word) {
-    return right;
-  }
-
-  while (left <= right) {
-    let middle = left + Math.floor((right - left) / 2);
-
-    let result = word.localeCompare(dictionary[middle]);
-
-    if (result === 0) {
-      return middle;
-    }
-
-    if (result > 0) {
-      left = middle + 1;
-    } else {
-      right = middle - 1;
-    }
-  }
-
-  return -1;
-}
-
 /**
  * Generate and return dictionary object based on a list of words
  * @param arr
