@@ -34,7 +34,6 @@ interface BoardState {
   selectedTiles: SelectedTiles;
   lastTile: TilePosition;
   isValid: boolean;
-  isValidNeighbor: boolean;
 }
 
 const initialState = {
@@ -42,16 +41,13 @@ const initialState = {
   selectedTiles: {},
   lastTile: {},
   isValid: true,
-  isValidNeighbor: true,
 };
 
 function BoardScreen() {
   const matrix = generateMatrix(letters.board);
   const dictionary: Dictionary = createDictionary(dictionaryData.words);
-  const [
-    {formedWord, isValid, lastTile, selectedTiles, isValidNeighbor},
-    setState,
-  ] = useState<BoardState>(initialState);
+  const [{formedWord, isValid, lastTile, selectedTiles}, setState] =
+    useState<BoardState>(initialState);
 
   function handleClear() {
     setState(initialState);
@@ -59,8 +55,7 @@ function BoardScreen() {
 
   function onTapTile(row: number, column: number, letter: string) {
     const newWord = formedWord + letter;
-    let isValidWord = true,
-      isValidNeighborElement = true;
+    let isValidWord = true;
 
     if (selectedTiles[row] && selectedTiles[row][column]) {
       return;
@@ -71,20 +66,21 @@ function BoardScreen() {
         isValidWord = dictionary[newWord];
       }
 
-      isValidNeighborElement = validateNeighbor(
+      let isValidNeighbor = validateNeighbor(
         lastTile as BoardPosition,
         {row, column},
         {numberOfRows: 4, numberOfColumns: 4},
       );
+
+      if (!isValidNeighbor) {
+        return;
+      }
     }
 
     setState(({selectedTiles: tiles}) => ({
       formedWord: newWord,
       lastTile: {row, column},
       isValid: isValidWord,
-      isValidNeighbor: isValidNeighbor
-        ? isValidNeighborElement
-        : isValidNeighbor,
       selectedTiles: {
         ...tiles,
         [row]: {
@@ -111,7 +107,7 @@ function BoardScreen() {
               <LinearGradient
                 colors={
                   isSelected
-                    ? isValid && isValidNeighbor
+                    ? isValid
                       ? theme.gradients.selected
                       : theme.gradients.invalid
                     : theme.gradients.notSelected
@@ -135,10 +131,7 @@ function BoardScreen() {
         <View style={styles.board}>{renderBoard()}</View>
       </View>
       <View style={styles.footer}>
-        <WordResult
-          isValidWord={isValid && isValidNeighbor}
-          formedWord={formedWord}
-        />
+        <WordResult isValidWord={isValid} formedWord={formedWord} />
       </View>
     </View>
   );
