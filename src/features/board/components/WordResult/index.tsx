@@ -11,12 +11,12 @@ function WordResult({isValidWord, formedWord}: WordResultProps) {
   const wordStyle = {
     color: isValidWord ? theme.colors.success : theme.colors.failure,
   };
-  const messageColor = {color: wordStyle.color, opacity: 0.6};
+  const messageColor = {color: wordStyle.color, opacity: 0.7};
 
   return (
     <View style={styles.container}>
       <Text style={[styles.formedWord, wordStyle]}>{formedWord}</Text>
-      {formedWord.length > 0 && (
+      {formedWord.length > 2 && (
         <Text style={[styles.messageStatus, messageColor]}>
           {isValidWord ? 'valid' : 'invalid'}
         </Text>
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   messageStatus: {
-    fontSize: 17,
+    fontSize: 19,
     fontWeight: 'normal',
   },
 });

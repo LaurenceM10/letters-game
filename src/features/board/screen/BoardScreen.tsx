@@ -185,10 +185,10 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: '#FFF',
     fontWeight: 'bold',
-    textShadowRadius: 8,
+    textShadowRadius: 6,
     textShadowOffset: {
-      width: -2,
-      height: -1,
+      width: -0.5,
+      height: -0.5,
     },
     textShadowColor: 'rgba(0, 0, 0, 0.5)',
   },
